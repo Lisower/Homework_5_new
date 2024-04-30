@@ -3,6 +3,15 @@
 
 header('Content-Type: text/html; charset=UTF-8');
 
+$messages = array();
+if (!empty($messages)) {
+  print('<div id="messages">');
+  foreach ($messages as $message) {
+    print($message);
+  }
+  print('</div>');
+}
+
 // В суперглобальном массиве $_SESSION хранятся переменные сессии.
 // Будем сохранять туда логин после успешной авторизации.
 $session_started = false;
@@ -39,7 +48,7 @@ else {
   $row_count = $stmt->rowCount();
   if ($row_count <= 0) {
       header('login.php');
-      echo ('Пользователя с такими логином и паролем нет в базе данных!');
+      messages[] = 'Пользователя с такими логином и паролем нет в базе данных!';
       exit();
   }
   
