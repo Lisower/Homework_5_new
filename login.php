@@ -19,14 +19,6 @@ if ($_COOKIE[session_name()] && session_start()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-  $messages = array();
-  if (!empty($messages)) {
-  print('<div id="messages">');
-  foreach ($messages as $message) {
-    print($message);
-  }
-  print('</div>');
-}
 ?>
 
 <form action="" method="post">
@@ -46,7 +38,7 @@ else {
   $stmt->execute([$_POST['login'],md5($_POST['pass'])]);
   $row_count = $stmt->rowCount();
   if ($row_count <= 0) {
-      $messages[] = 'Пользователя с такими логином и паролем нет в базе данных!';
+      print('Пользователя с такими логином и паролем нет в базе данных!');
       // header('Location: login.php');
       exit();
   }
