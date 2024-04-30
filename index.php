@@ -238,6 +238,10 @@ else {
 // Проверяем меняются ли ранее сохраненные данные или отправляются новые.
   if (!empty($_COOKIE[session_name()]) &&
       session_start() && !empty($_SESSION['login'])) {
+    include('credentials.php');
+    $db = new PDO('mysql:host=localhost;dbname=u67447', $GLOBALS['user'], $GLOBALS['pass'],
+      [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    
     try {
       $stmt = $db->prepare(
         "UPDATE Applications SET FIO = ?, phone_number = ?, e_mail = ?, birthday = ?, sex = ?, biography = ?, login = ?, pass = ? where login = ? and pass = ?");
