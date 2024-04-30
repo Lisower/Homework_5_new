@@ -49,6 +49,7 @@ else {
   }
 
   $_SESSION['login'] = $_POST['login'];
+  $_SESSION['pass'] = $_POST['pass'];
   $_SESSION['uid'] = uniqid();
 
   header('Location: ./');
