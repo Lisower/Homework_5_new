@@ -49,15 +49,16 @@ Form input,textarea,select{
     background: rgba(0, 0, 0, 0.3);
     z-index: 1;
 }
-.Exit{
-    position:fixed;
-    top:6vh;
-    left:64vw;
+.Exit {
+    position: fixed;
+    top: 7vh;
+    left: 62vw;
+    padding-top: 7px;
     border: 2px solid rgb(232, 224, 3);
-    border-radius: 15px;
-    text-align:center;
-    width:10px;
-    height:10px;
+    border-radius: 10px;
+    text-align: center;
+    width: 25px;
+    height: 25px;
 }
 .error {
   border: 2px solid red;
