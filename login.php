@@ -48,7 +48,7 @@ else {
   $row_count = $stmt->rowCount();
   if ($row_count <= 0) {
       header('login.php');
-      messages[] = 'Пользователя с такими логином и паролем нет в базе данных!';
+      $messages[] = 'Пользователя с такими логином и паролем нет в базе данных!';
       exit();
   }
   
