@@ -22,6 +22,9 @@ if (!empty($messages)) {
     <button id="Button">Открыть форму</button>
 
         <div id="Popup" class="Popup">
+            <div id="Exit" class="Exit">
+                X
+            <div/>
             <form id="Form" action="" method="POST">
                 <h1>Форма</h1>
 
