@@ -38,8 +38,8 @@ else {
   $stmt->execute([$_POST['login'],$_POST['pass']]);
   $row_count = $stmt->rowCount();
   if ($row_count <= 0) {
-      print('Пользователя с такими логином и паролем нет в базе данных!');
       header('Location: login.php');
+      print('Пользователя с такими логином и паролем нет в базе данных!');
       exit();
   }
   
