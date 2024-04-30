@@ -3,6 +3,8 @@
 
 header('Content-Type: text/html; charset=UTF-8');
 
+$messages = array();
+
 // В суперглобальном массиве $_SESSION хранятся переменные сессии.
 // Будем сохранять туда логин после успешной авторизации.
 $session_started = false;
@@ -19,14 +21,13 @@ if ($_COOKIE[session_name()] && session_start()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-  $messages = array();
-if (!empty($messages)) {
-  print('<div id="messages">');
-  foreach ($messages as $message) {
-    print($message);
+  if (!empty($messages)) {
+    print('<div id="messages">');
+    foreach ($messages as $message) {
+      print($message);
+    }
+    print('</div>');
   }
-  print('</div>');
-}
 ?>
 
 <form action="" method="post">
