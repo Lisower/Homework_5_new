@@ -245,7 +245,7 @@ else {
     // Генерируем уникальный логин и пароль.
     // TODO: сделать механизм генерации, например функциями rand(), uniquid(), md5(), substr().
     $login = substr(md5($_COOKIE[session_name()].uniqid().rand()),0,7);
-    $pass = substr(md5(uniqid().rand().$_COOKIE[session_name()].rand().$login),0,7);
+    $password = substr(md5(uniqid().rand().$_COOKIE[session_name()].rand().$login),0,7);
     // Сохраняем в Cookies.
     setcookie('login', $login);
     setcookie('pass', $pass);
@@ -258,7 +258,7 @@ else {
       $stmt = $db->prepare(
         "INSERT INTO Applications SET FIO = ?, phone_number = ?, e_mail = ?, birthday = ?, sex = ?, biography = ?, login = ?, pass = ?");
       $stmt->execute([$_POST['FIO'],$_POST['phone_number'],$_POST['e_mail'],$_POST['birthday'],$_POST['sex'],$_POST['biography'],
-                     $login, substr(md5($pass),0,7)]);
+                     $login, substr(md5($password),0,7)]);
       $application_id = $db->lastInsertId();
       $stmt = $db->prepare("INSERT INTO Application_languages (application_id, language_id) VALUES (?, ?)");
       foreach ($_POST['favourite_languages'] as $language_id) {
