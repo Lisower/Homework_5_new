@@ -28,8 +28,6 @@ if ($_COOKIE[session_name()] && session_start()) {
   }
 }
 
-// В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
-// и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 ?>
 
@@ -41,19 +39,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 <?php
 }
-// Иначе, если запрос был методом POST, т.е. нужно сделать авторизацию с записью логина в сессию.
-else {
-  // TODO: Проверть есть ли такой логин и пароль в базе данных.
-  // Выдать сообщение об ошибках.
 
+else {
+  include('credentials.php');
+  $db = new PDO('mysql:host=localhost;dbname=u67447', $GLOBALS['user'], $GLOBALS['pass'],
+    [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+  $stmt = $db->prepare("SELECT id FROM table WHERE login = ?, pass = ?");
+  $stmt->execute([$_POST['login'],$_POST['pass']]);
+  $stmt->store_result();
+  $row_count = $stmt->num_rows;
+  $stmt->close();
+  if ($row_count <= 0) {
+      print('Пользователя с такими логином и паролем нет в базе данных!');
+      exit();
+  }
+  
   if (!$session_started) {
     session_start();
   }
-  // Если все ок, то авторизуем пользователя.
-  $_SESSION['login'] = $_POST['login'];
-  // Записываем ID пользователя.
-  $_SESSION['uid'] = 123;
 
-  // Делаем перенаправление.
+  $_SESSION['login'] = $_POST['login'];
+  $_SESSION['uid'] = iniqid();
+
   header('Location: ./');
 }
