@@ -132,8 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
       
       try {
-        $stmt = $db->prepare(
-          "select FIO, phone_number, e_mail, birthday, sex, biography where login = ? and pass = ?");
+        $stmt = $db->prepare("select FIO, phone_number, e_mail, birthday, sex, biography where login = ? and pass = ?");
           $stmt->execute([$_SESSION['login'], $_SESSION['pass']]);
           $result = $stmt->fetch(PDO::FETCH_ASSOC);
           $values['FIO'] = $result['FIO'];
