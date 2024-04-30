@@ -39,7 +39,7 @@ else {
   $row_count = $stmt->rowCount();
   if ($row_count <= 0) {
       print('Пользователя с такими логином и паролем нет в базе данных!');
-      print(md5('41cc4c7'));
+      print(substr(md5('41cc4c7')0,7));
       // header('Location: login.php');
       exit();
   }
