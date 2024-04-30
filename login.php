@@ -3,8 +3,6 @@
 
 header('Content-Type: text/html; charset=UTF-8');
 
-$messages = array();
-
 // В суперглобальном массиве $_SESSION хранятся переменные сессии.
 // Будем сохранять туда логин после успешной авторизации.
 $session_started = false;
@@ -21,13 +19,6 @@ if ($_COOKIE[session_name()] && session_start()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-  if (!empty($messages)) {
-    print('<div id="messages">');
-    foreach ($messages as $message) {
-      print($message);
-    }
-    print('</div>');
-  }
 ?>
 
 <form action="" method="post">
@@ -47,7 +38,7 @@ else {
   $stmt->execute([$_POST['login'],$_POST['pass']]);
   $row_count = $stmt->rowCount();
   if ($row_count <= 0) {
-      $messages[] = 'Пользователя с такими логином и паролем нет в базе данных!';
+      print('Пользователя с такими логином и паролем нет в базе данных!');
       header('Location: login.php');
       exit();
   }
