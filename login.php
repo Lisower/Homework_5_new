@@ -35,11 +35,11 @@ else {
   $db = new PDO('mysql:host=localhost;dbname=u67447', $GLOBALS['user'], $GLOBALS['pass'],
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
   $stmt = $db->prepare("select id from Applications where login = ? and pass = ?");
-  $stmt->execute([$_POST['login'],md5($_POST['pass'])]);
+  $stmt->execute([$_POST['login'], md5($_POST['pass'])]);
   $row_count = $stmt->rowCount();
   if ($row_count <= 0) {
       print('Пользователя с такими логином и паролем нет в базе данных!');
-      print(md5('41cc4c7'))
+      print(md5('41cc4c7'));
       // header('Location: login.php');
       exit();
   }
