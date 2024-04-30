@@ -248,7 +248,7 @@ else {
     $password = substr(md5(uniqid().rand().$_COOKIE[session_name()].rand().$login),0,7);
     // Сохраняем в Cookies.
     setcookie('login', $login);
-    setcookie('pass', $pass);
+    setcookie('pass', $password);
 
     include('credentials.php');
     $db = new PDO('mysql:host=localhost;dbname=u67447', $GLOBALS['user'], $GLOBALS['pass'],
