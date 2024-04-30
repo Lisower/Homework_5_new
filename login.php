@@ -49,7 +49,7 @@ else {
   }
 
   $_SESSION['login'] = $_POST['login'];
-  $_SESSION['pass'] = md5($_POST['pass']);
+  $_SESSION['pass'] = substr(md5($_POST['pass']),0,7);
   $_SESSION['uid'] = uniqid();
 
   header('Location: ./');
