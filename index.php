@@ -244,7 +244,7 @@ else {
   else {
     // Генерируем уникальный логин и пароль.
     // TODO: сделать механизм генерации, например функциями rand(), uniquid(), md5(), substr().
-    $login = '$_POST['FIO']';
+    $login = $_POST['FIO'];
     $pass = uniquid();
     // Сохраняем в Cookies.
     setcookie('login', $login);
