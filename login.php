@@ -44,7 +44,7 @@ else {
   include('credentials.php');
   $db = new PDO('mysql:host=localhost;dbname=u67447', $GLOBALS['user'], $GLOBALS['pass'],
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-  $stmt = $db->prepare("SELECT id FROM table Applications WHERE login = ? AND pass = ?");
+  $stmt = $db->prepare("select id from Applications where login = ? and pass = ?");
   $stmt->execute([$_POST['login'],$_POST['pass']]);
   $stmt->store_result();
   $row_count = $stmt->num_rows;
