@@ -238,15 +238,27 @@ else {
 // Проверяем меняются ли ранее сохраненные данные или отправляются новые.
   if (!empty($_COOKIE[session_name()]) &&
       session_start() && !empty($_SESSION['login'])) {
-    // TODO: перезаписать данные в БД новыми данными,
-    // кроме логина и пароля.
+    try {
+      $stmt = $db->prepare(
+        "UPDATE Applications SET FIO = ?, phone_number = ?, e_mail = ?, birthday = ?, sex = ?, biography = ?, login = ?, pass = ? where login = ? and pass = ?");
+      $stmt->execute([$_POST['FIO'],$_POST['phone_number'],$_POST['e_mail'],$_POST['birthday'],$_POST['sex'],$_POST['biography'],
+                     $_SESSION['login'], $_SESSION['pass']]);
+      $application_id = $db->lastInsertId();
+      $stmt = $db->prepare("INSERT INTO Application_languages (application_id, language_id) VALUES (?, ?)");
+      foreach ($_POST['favourite_languages'] as $language_id) {
+          $stmt->execute([$application_id, $language_id]); 
+      }
+    }
+    catch(PDOException $e){
+      print('Error : ' . $e->getMessage());
+      exit();
+    }
   }
   else {
-    // Генерируем уникальный логин и пароль.
-    // TODO: сделать механизм генерации, например функциями rand(), uniquid(), md5(), substr().
+    
     $login = substr(md5($_COOKIE[session_name()].uniqid().rand()),0,7);
     $password = substr(md5(uniqid().rand().$_COOKIE[session_name()].rand().$login),0,7);
-    // Сохраняем в Cookies.
+    
     setcookie('login', $login);
     setcookie('pass', $password);
 
