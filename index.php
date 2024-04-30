@@ -244,7 +244,7 @@ else {
     
     try {
       $stmt = $db->prepare(
-        "UPDATE Applications SET FIO = ?, phone_number = ?, e_mail = ?, birthday = ?, sex = ?, biography = ?, login = ?, pass = ? where login = ? and pass = ?");
+        "update Applications SET FIO = ?, phone_number = ?, e_mail = ?, birthday = ?, sex = ?, biography = ? where login = ? and pass = ?");
       $stmt->execute([$_POST['FIO'],$_POST['phone_number'],$_POST['e_mail'],$_POST['birthday'],$_POST['sex'],$_POST['biography'],
                      $_SESSION['login'], $_SESSION['pass']]);
     }
