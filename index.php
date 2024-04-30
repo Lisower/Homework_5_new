@@ -127,9 +127,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
   if (empty($errors) && !empty($_COOKIE[session_name()]) &&
       session_start() && !empty($_SESSION['login'])) {
-    // TODO: загрузить данные пользователя из БД
-    // и заполнить переменную $values,
-    // предварительно санитизовав.
+      include('credentials.php');
+      $db = new PDO('mysql:host=localhost;dbname=u67447', $GLOBALS['user'], $GLOBALS['pass'],
+        [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+      
+      try {
+        $stmt = $db->prepare(
+          "select FIO, phone_number, e_mail, birthday, sex, biography where login = ? and pass = ?");
+          $stmt->execute([$_SESSION['login'], $_SESSION['pass']]);
+          $result = $stmt->fetch(PDO::FETCH_ASSOC);
+          $values['FIO'] = $result['FIO'];
+          $values['phone_number'] = $result['phone_number'];
+          $values['e_mail'] = $result['e_mail'];
+          $values['birthday'] = $result['birthday'];
+          $values['sex'] = $result['sex'];
+          $values['biography'] = $result['biography'];
+      }
+      catch(PDOException $e){
+        print('Error : ' . $e->getMessage());
+        exit();
+      }
+    
+      $values['FIO'] = empty($_COOKIE['FIO_value']) ? '' : $_COOKIE['FIO_value'];
+      $values['phone_number'] = empty($_COOKIE['phone_number_value']) ? '' : $_COOKIE['phone_number_value'];
+      $values['e_mail'] = empty($_COOKIE['e_mail_value']) ? '' : $_COOKIE['e_mail_value'];
+      $values['birthday'] = empty($_COOKIE['birthday_value']) ? '' : $_COOKIE['birthday_value'];
+      $values['sex'] = empty($_COOKIE['sex_value']) ? '' : $_COOKIE['sex_value'];
+      $values['biography'] = empty($_COOKIE['biography_value']) ? '' : $_COOKIE['biography_value'];
+      $values['check'] = empty($_COOKIE['check_value']) ? '' : $_COOKIE['check_value'];
+    
     printf('Вход с логином %s, uid %d', $_SESSION['login'], $_SESSION['uid']);
   }
   
@@ -235,7 +261,6 @@ else {
 
   }
 
-// Проверяем меняются ли ранее сохраненные данные или отправляются новые.
   if (!empty($_COOKIE[session_name()]) &&
       session_start() && !empty($_SESSION['login'])) {
     include('credentials.php');
